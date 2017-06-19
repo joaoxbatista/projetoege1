@@ -2,15 +2,20 @@ package geradordeprovas.app;
 
 import geradordeprovas.models.Alternative;
 import geradordeprovas.models.CloseQuestion;
+import geradordeprovas.models.Course;
 import geradordeprovas.models.Discipline;
 import geradordeprovas.models.OpenQuestion;
 import geradordeprovas.models.Questionnaire;
+import geradordeprovas.models.Teacher;
 import geradordeprovas.models.UniversityClass;
 import geradordeprovas.repositories.AlternativeRepository;
 import geradordeprovas.repositories.CloseQuestionRepository;
+import geradordeprovas.repositories.CourseRepository;
 import geradordeprovas.repositories.DisciplineRepository;
 import geradordeprovas.repositories.OpenQuestionRepository;
 import geradordeprovas.repositories.QuestionnaireRepository;
+import geradordeprovas.repositories.Repository;
+import geradordeprovas.repositories.TeacherRepository;
 import geradordeprovas.repositories.UniversityClassRepository;
 import geradordeprovas.util.HibernateUtil;
 import java.io.Serializable;
@@ -64,6 +69,7 @@ public class Main {
  /*==============================
          * Operações com disciplinas
          *==============================
+        
         //Criar uma instancia de turma
         Discipline mat_discreta = new Discipline("Matemática discreta", "Alguma descrição aqui");
         Discipline eg_soft1 = new Discipline("Engenharia de Software 1", "Alguma descrição aqui");
@@ -132,6 +138,7 @@ public class Main {
  /*==============================
          * Salvando alternativas e questão fechadas
          *============================== 
+ 
         //Criar alternativas
         Alternative alta = new Alternative("Pedro Alvares Cabral");
         Alternative altb = new Alternative("Cristovão Colombo");
@@ -155,7 +162,9 @@ public class Main {
          */
  /*==============================
          * Salvando alternativas e questão fechadas
-         *==============================*/
+         *==============================
+        
+        
         //Criar questionário
         Questionnaire quest1 = new Questionnaire("Programação Orientada a Objetos", new Date());
 
@@ -193,9 +202,43 @@ public class Main {
             OpenQuestionRepository cqRepository = new OpenQuestionRepository();
             cqRepository.save(open_question);
         }
+         */
+ /*==============================
+         * Salvando disciplinas em cursos e cursos em disciplinas
+         *==============================
+        //Criar curso
+        Course cc = new Course("Ciência da Computação", "Curso de doido", "Exatas");
+        //Criar disciplinas
+        Discipline md = new Discipline("Matemática Discreta", "Descrição para matéria");
+        Discipline calc1 = new Discipline("Cálculo 1", "Descrição para matéria");
+       
+        //Salvar no Banco de Dados
+        CourseRepository csRepository = new CourseRepository();
         
-        //Sarvar questão fechada
-        System.exit(0);
-
+        cc.addDiscipline(md);
+        cc.addDiscipline(calc1);
+        
+        csRepository.save(cc);
+        
+        
+         */
+ /*==============================
+         * Professor criando provas
+         *==============================*/
+ 
+         Teacher joao = new Teacher("João Batista", "jhonxbatistata", "123123123");
+         Questionnaire quest1 = new Questionnaire("AB2 Sistemas Digitais", new Date());
+         
+         joao.addQuestionnaire(quest1);
+         
+         TeacherRepository tcRepository = new TeacherRepository();
+         tcRepository.save(joao);
+         
+         quest1.setTeacher(joao);
+         
+         QuestionnaireRepository qtRepository = new QuestionnaireRepository();
+         qtRepository.save(quest1);
+         
+         System.exit(0);
     }
 }

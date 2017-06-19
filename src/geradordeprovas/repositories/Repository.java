@@ -6,7 +6,6 @@
 package geradordeprovas.repositories;
 
 import geradordeprovas.util.HibernateUtil;
-import java.io.Serializable;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -20,6 +19,4 @@ public abstract class Repository{
     public Repository(){
         this.factory = HibernateUtil.getSessionFactory();
     }
-    
-    
 }

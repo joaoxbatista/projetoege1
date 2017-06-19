@@ -10,11 +10,13 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
 @Table(name = "university_classes")
-public class UniversityClass implements Serializable {
+public class UniversityClass implements Serializable{
     @Id @GeneratedValue
     @Column(name = "id")
     private int id;
@@ -24,6 +26,10 @@ public class UniversityClass implements Serializable {
     
     @Column(name = "year")
     private int year;
+    
+    @ManyToOne
+    @JoinColumn(name = "course_id")
+    private Course course;
     
     public UniversityClass(){}
 

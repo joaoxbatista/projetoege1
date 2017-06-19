@@ -9,6 +9,8 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -16,8 +18,12 @@ import org.hibernate.annotations.Cascade;
 
 @Entity
 @Table(name = "questionnaires")
-public class Questionnaire extends Repository implements Serializable {
-
+public class Questionnaire implements Serializable{
+    
+    /*
+        Atributos
+    */
+    
     @Id
     @GeneratedValue
     private int id;
@@ -34,7 +40,15 @@ public class Questionnaire extends Repository implements Serializable {
     
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "questionnaire")
     private List<CloseQuestion> close_questions;
-
+    
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "teacher_id")
+    private Teacher teacher;
+    
+    /*
+        Métodos
+    */
+    
     public Questionnaire() {
     }
 
@@ -83,6 +97,15 @@ public class Questionnaire extends Repository implements Serializable {
         this.close_questions = close_questions;
     }
 
+    public Teacher getTeacher() {
+        return teacher;
+    }
+
+    public void setTeacher(Teacher teacher) {
+        this.teacher = teacher;
+    }
+    
+    
     @Override
     public String toString() {
         return "Questionnaire{" + "id=" + id + ", title=" + title + ", created_at=" + created_at + ", open_questions=" + open_questions + ", close_questions=" + close_questions + '}';

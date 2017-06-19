@@ -24,7 +24,7 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "close_questions")
-public class CloseQuestion extends Repository implements Serializable{
+public class CloseQuestion implements Serializable{
     
     @Id @GeneratedValue
     private int id;

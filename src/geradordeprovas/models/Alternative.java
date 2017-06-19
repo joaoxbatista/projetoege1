@@ -22,7 +22,7 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "alternatives")
-public class Alternative extends Repository implements Serializable{
+public class Alternative implements Serializable{
     
     @Id @GeneratedValue
     private int id;
