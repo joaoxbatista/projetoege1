@@ -1,24 +1,19 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package geradordeprovas.models;
 
 import geradordeprovas.repositories.Repository;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
+import org.hibernate.annotations.Cascade;
 
-/**
- *
- * @author João Batista
- */
 @Entity
 @Table(name = "questionnaires")
 public class Questionnaire extends Repository implements Serializable {
@@ -33,6 +28,12 @@ public class Questionnaire extends Repository implements Serializable {
     @Column(name = "created_at")
     @Temporal(javax.persistence.TemporalType.DATE)
     private Date created_at;
+    
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "questionnaire")
+    private List<OpenQuestion> open_questions;
+    
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "questionnaire")
+    private List<CloseQuestion> close_questions;
 
     public Questionnaire() {
     }
@@ -66,10 +67,29 @@ public class Questionnaire extends Repository implements Serializable {
         this.created_at = created_at;
     }
 
+    public List<OpenQuestion> getOpen_questions() {
+        return open_questions;
+    }
+
+    public void setOpen_questions(List<OpenQuestion> open_questions) {
+        this.open_questions = open_questions;
+    }
+
+    public List<CloseQuestion> getClose_questions() {
+        return close_questions;
+    }
+
+    public void setClose_questions(List<CloseQuestion> close_questions) {
+        this.close_questions = close_questions;
+    }
+
     @Override
     public String toString() {
-        return "Questionnaire{" + "id=" + id + ", title=" + title + ", created_at=" + created_at + '}';
+        return "Questionnaire{" + "id=" + id + ", title=" + title + ", created_at=" + created_at + ", open_questions=" + open_questions + ", close_questions=" + close_questions + '}';
     }
+    
+    
+    
     
     
 }

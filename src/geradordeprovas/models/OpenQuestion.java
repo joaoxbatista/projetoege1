@@ -11,6 +11,8 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 /**
@@ -32,6 +34,10 @@ public class OpenQuestion extends Repository implements Serializable{
     
     @Column(name = "answare_guide", length = 600)
     private String answare_guide;
+    
+    @ManyToOne
+    @JoinColumn(name = "questionnaire_id")
+    private Questionnaire questionnaire;
     
     public OpenQuestion(){}
 
@@ -65,6 +71,23 @@ public class OpenQuestion extends Repository implements Serializable{
         this.answare_guide = answare_guide;
     }
 
+    public String getComment() {
+        return comment;
+    }
+
+    public void setComment(String comment) {
+        this.comment = comment;
+    }
+
+    public Questionnaire getQuestionnaire() {
+        return questionnaire;
+    }
+
+    public void setQuestionnaire(Questionnaire questionnaire) {
+        this.questionnaire = questionnaire;
+    }
+
+    
     @Override
     public String toString() {
         return "OpenQuestion{" + "id=" + id + ", statement=" + statement + ", comment=" + comment + ", answare_guide=" + answare_guide + '}';

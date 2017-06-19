@@ -7,10 +7,15 @@ package geradordeprovas.models;
 
 import geradordeprovas.repositories.Repository;
 import java.io.Serializable;
+import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 /**
@@ -29,14 +34,24 @@ public class CloseQuestion extends Repository implements Serializable{
     
     @Column(name = "comment", length = 255)
     private String comment;
-
+    
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "close_question")
+    private List<Alternative> alternatives;
+    
+    @ManyToOne
+    @JoinColumn(name = "questionnaire_id")
+    private Questionnaire questionnaire;
+    
     public CloseQuestion() {
     }
 
-    public CloseQuestion(String statement, String comment) {
+    public CloseQuestion(String statement, String comment, List<Alternative> alternatives) {
         this.statement = statement;
         this.comment = comment;
+        this.alternatives = alternatives;
     }
+
+    
 
     public int getId() {
         return id;
@@ -62,9 +77,26 @@ public class CloseQuestion extends Repository implements Serializable{
         this.comment = comment;
     }
 
+    public List<Alternative> getAlternatives() {
+        return alternatives;
+    }
+
+    public void setAlternatives(List<Alternative> alternatives) {
+        this.alternatives = alternatives;
+    }
+
+    public Questionnaire getQuestionnaire() {
+        return questionnaire;
+    }
+
+    public void setQuestionnaire(Questionnaire questionnaire) {
+        this.questionnaire = questionnaire;
+    }
+
+    
     @Override
     public String toString() {
-        return "CloseQuestion{" + "id=" + id + ", statement=" + statement + ", comment=" + comment + '}';
+        return "CloseQuestion{" + "id=" + id + ", statement=" + statement + ", comment=" + comment + ", alternatives=" + alternatives + '}';
     }
     
     

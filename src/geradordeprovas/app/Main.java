@@ -1,13 +1,21 @@
 package geradordeprovas.app;
 
 import geradordeprovas.models.Alternative;
+import geradordeprovas.models.CloseQuestion;
 import geradordeprovas.models.Discipline;
+import geradordeprovas.models.OpenQuestion;
+import geradordeprovas.models.Questionnaire;
 import geradordeprovas.models.UniversityClass;
 import geradordeprovas.repositories.AlternativeRepository;
+import geradordeprovas.repositories.CloseQuestionRepository;
 import geradordeprovas.repositories.DisciplineRepository;
+import geradordeprovas.repositories.OpenQuestionRepository;
+import geradordeprovas.repositories.QuestionnaireRepository;
 import geradordeprovas.repositories.UniversityClassRepository;
 import geradordeprovas.util.HibernateUtil;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -90,6 +98,7 @@ public class Main {
  /*==============================
          * Operações com alternativas
          *============================== 
+        
         //Criar uma instancia de turma
         Alternative alta = new Alternative("Macaco");
         Alternative altb = new Alternative("Urso");
@@ -119,8 +128,73 @@ public class Main {
 
         //Busca de turmas
         Alternative alter2 = altRepository.find(2);
-        System.out.println(alter2);*/
- 
+        System.out.println(alter2); */
+ /*==============================
+         * Salvando alternativas e questão fechadas
+         *============================== 
+        //Criar alternativas
+        Alternative alta = new Alternative("Pedro Alvares Cabral");
+        Alternative altb = new Alternative("Cristovão Colombo");
+        List<Alternative> alternatives = new ArrayList<>();
+        alternatives.add(alta);
+        alternatives.add(altb);
+        
+        //Criar questão fechada
+        CloseQuestion c1 = new CloseQuestion("Quem descobriu o Brasil?", "", alternatives);
+       
+        //Salvar questão fechada
+        CloseQuestionRepository cqRepository = new CloseQuestionRepository();
+        cqRepository.save(c1);
+        
+        //Salvar alternativas
+        AlternativeRepository altRepository = new AlternativeRepository();
+        for(Alternative alternative : alternatives){
+            alternative.setClose_question(c1);
+            altRepository.save(alternative);
+        }
+         */
+ /*==============================
+         * Salvando alternativas e questão fechadas
+         *==============================*/
+        //Criar questionário
+        Questionnaire quest1 = new Questionnaire("Programação Orientada a Objetos", new Date());
+
+        //Criar questão aberta
+        
+        //Criar questão fechada
+        Alternative alta = new Alternative("Include");
+        Alternative altb = new Alternative("Extends");
+        List<Alternative> alternatives = new ArrayList<>();
+        alternatives.add(alta);
+        alternatives.add(altb);
+
+        CloseQuestion c1 = new CloseQuestion("Como se alcança herança?", "", alternatives);
+        c1.setQuestionnaire(quest1);
+        
+        //Salvar questão aberta
+        OpenQuestion q1 = new OpenQuestion("Descreva com suas palavras o que são interfaces", "", "");
+        q1.setQuestionnaire(quest1);
+        
+        //Salvar questionario
+        QuestionnaireRepository qtRepository = new QuestionnaireRepository();
+        qtRepository.save(quest1);
+        
+        for(CloseQuestion close_question : quest1.getClose_questions()){
+            CloseQuestionRepository cqRepository = new CloseQuestionRepository();
+            cqRepository.save(close_question);
+            
+            for(Alternative alt : close_question.getAlternatives()){
+                AlternativeRepository altRepository = new AlternativeRepository();
+                altRepository.save(alt);
+            }
+        }
+        
+        for(OpenQuestion open_question : quest1.getOpen_questions()){
+            OpenQuestionRepository cqRepository = new OpenQuestionRepository();
+            cqRepository.save(open_question);
+        }
+        
+        //Sarvar questão fechada
         System.exit(0);
 
     }

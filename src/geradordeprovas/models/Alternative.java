@@ -11,6 +11,9 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 /**
@@ -27,6 +30,10 @@ public class Alternative extends Repository implements Serializable{
     @Column(name = "statement", length = 600)
     private String statement;
 
+    @ManyToOne
+    @JoinColumn(name = "close_question_id")
+    private CloseQuestion close_question;
+    
     public Alternative() {
     }
 
@@ -50,11 +57,18 @@ public class Alternative extends Repository implements Serializable{
         this.statement = statement;
     }
 
+    public CloseQuestion getClose_question() {
+        return close_question;
+    }
+
+    public void setClose_question(CloseQuestion close_question) {
+        this.close_question = close_question;
+    }
+
     @Override
     public String toString() {
-        return "Alternative{" + "id=" + id + ", statement=" + statement + '}';
+        return "Alternative{" + "id=" + id + ", statement=" + statement + ", close_question=" + close_question + '}';
     }
-    
    
     
 }
